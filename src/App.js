@@ -25,38 +25,39 @@ const languageGreetingsList = [
   },
 ]
 
-// Replace your code here
 class App extends Component {
-  state = {image: languageGreetingsList[0].imageUrl}
+  state = {
+    image: languageGreetingsList[0].imageUrl,
+    text: languageGreetingsList[0].imageAltText,
+  }
 
-  onClickBtn = key => {
-    const {image} = this.state
-    if (key === image.imageAltText) {
-      this.setState({image: languageGreetingsList.imageUrl})
-    }
-    return image
+  onClickBtn = id => {
+    const object = languageGreetingsList.filter(each => each.id === id)
+    this.setState({image: object[0].imageUrl, text: object[0].imageAltText})
   }
 
   render() {
-    const {image} = this.state
+    const {image, text} = this.state
     return (
       <div className="bg-container">
         <div className="container">
           <h1 className="heading">Multilingual Greetings</h1>
           <ul>
             {languageGreetingsList.map(eachLanguage => (
-              <li key={eachLanguage.imageAltText} onClick={this.onClickBtn}>
-                <div>
-                  <button type="button">{eachLanguage.buttonText}</button>
-                  <img src={image} alt={eachLanguage.imageAltText} />
-                </div>
+              <li key={eachLanguage.imageAltText}>
+                <button
+                  type="button"
+                  onClick={() => this.onClickBtn(eachLanguage.id)}
+                >
+                  {eachLanguage.buttonText}
+                </button>
               </li>
             ))}
           </ul>
+          <img src={image} alt={text} />
         </div>
       </div>
     )
   }
 }
-
 export default App
